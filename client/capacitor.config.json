@@ -3,6 +3,6 @@
   "appName": "omnisense",
   "bundledWebRuntime": false,
   "npmClient": "npm",
-  "webDir": "build",
+  "webDir": "dist",
   "cordova": {}
 }
