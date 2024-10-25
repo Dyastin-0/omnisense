@@ -55,7 +55,7 @@ export const CostChart = () => {
               <Tooltip content={<CostTooltip />} />
               <Area
                 type="monotone"
-                dataKey="total.cost"
+                dataKey="Total.cost"
                 stroke="var(--accent)"
                 fill="var(--accent)"
               />

@@ -136,7 +136,7 @@ export const calculateConsumptionAndCost = (
         if (data[value.name] !== undefined) {
           const deviceUptime = data[value.name];
           const deviceConsumption = deviceUptime * value.powerRating;
-          const deviceCost = deviceConsumption * rate;
+          const deviceCost = (deviceConsumption / 1000) * rate;
           acc[value.name] = {
             consumption: deviceConsumption,
             cost: deviceCost,
@@ -146,7 +146,7 @@ export const calculateConsumptionAndCost = (
       },
       {}
     );
-    const total = Object.values(consumptionData).reduce(
+    const Total = Object.values(consumptionData).reduce(
       (sum, val) => {
         sum.consumption += val.consumption;
         sum.cost += val.cost;
@@ -155,7 +155,7 @@ export const calculateConsumptionAndCost = (
       { consumption: 0, cost: 0 }
     );
 
-    return { ...data, ...consumptionData, total };
+    return { ...data, ...consumptionData, Total };
   });
 
   return updatedChartData;

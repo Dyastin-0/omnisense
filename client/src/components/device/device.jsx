@@ -19,6 +19,7 @@ const areEqual = (prevProps, nextProps) => {
 export const Device = memo(
   ({
     deviceName,
+    powerRating,
     enabled,
     devicePin,
     sentBy,
@@ -95,6 +96,7 @@ export const Device = memo(
             handleDeviceState={handleDeviceState}
             enabled={deviceEnabled}
             devicePin={devicePin}
+            powerRating={powerRating}
             index={index}
             active={isSettingsOpen}
             closeModal={closeSettings}

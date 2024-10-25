@@ -9,6 +9,7 @@ export const DeviceSettings = ({
   active,
   closeModal,
   index,
+  powerRating,
 }) => {
   return (
     <GenericModal
@@ -20,12 +21,16 @@ export const DeviceSettings = ({
         <div className="modal-content-container">
           <div className="column flex">
             <div>
-              <p className="description">Pin</p>
-              <p>{devicePin}</p>
-            </div>
-            <div>
               <p className="description">Name</p>
               <p>{deviceName}</p>
+            </div>
+            <div>
+              <p className="description">Power Rating</p>
+              <p>{`${powerRating} W`}</p>
+            </div>
+            <div>
+              <p className="description">Pin</p>
+              <p>{devicePin}</p>
             </div>
             <div>
               <p className="description">Index</p>

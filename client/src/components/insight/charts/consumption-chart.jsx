@@ -55,7 +55,7 @@ export const ConsumptionChart = () => {
               <Tooltip content={<ConsumptionTooltip />} />
               <Area
                 type="monotone"
-                dataKey="total.consumption"
+                dataKey="Total.consumption"
                 stroke="var(--accent)"
                 fill="var(--accent)"
               />

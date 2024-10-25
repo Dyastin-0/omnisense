@@ -9,7 +9,7 @@ export const CostTooltip = ({ active, payload, label }) => {
           const value = load.value.cost || load.value;
           return (
             <div className="row left" key={key}>
-              <p>{load.name}</p>
+              <p>{load.name.split(".")[0]}</p>
               <h6>{`\u20B1${value.toFixed(2)}`}</h6>
             </div>
           );
