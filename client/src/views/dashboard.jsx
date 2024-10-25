@@ -10,6 +10,7 @@ import { UsageChart } from "../components/insight/charts/usage-chart";
 import { Pad } from "../components/Pad/Pad";
 import { Insight } from "../components/insight/trends";
 import { ConsumptionChart } from "../components/insight/charts/consumption-chart";
+import { CostChart } from "../components/insight/charts/cost-chart";
 
 const Dashboard = ({ setToastMessage }) => {
   const navigate = useNavigate();
@@ -48,6 +49,7 @@ const Dashboard = ({ setToastMessage }) => {
       />
       <UsageChart />
       <ConsumptionChart />
+      <CostChart />
       <Insight />
       <DevicePanel setToastMessage={setToastMessage} />
       <MessagePanel />

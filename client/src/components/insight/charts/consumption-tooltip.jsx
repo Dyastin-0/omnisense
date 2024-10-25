@@ -6,10 +6,11 @@ export const ConsumptionTooltip = ({ active, payload, label }) => {
       <div className="tooltip">
         <h5>{label}</h5>
         {payload.map((load, key) => {
+          const value = load.value.consumption || load.value;
           return (
             <div className="row left" key={key}>
               <p>{load.name}</p>
-              <h6>{`${load.value.toFixed(2)} W`}</h6>
+              <h6>{`${value.toFixed(2)} W`}</h6>
             </div>
           );
         })}

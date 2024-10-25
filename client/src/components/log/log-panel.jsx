@@ -21,7 +21,7 @@ export const MessagePanel = () => {
       if (user) {
         const rendered = Object.entries(
           messages.length > 20
-            ? messages.slice(messages.length - 21, messages.length)
+            ? messages.slice(messages.length - 20, messages.length)
             : messages
         ).map(([key, value]) => (
           <Log

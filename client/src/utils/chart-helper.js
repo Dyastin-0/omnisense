@@ -125,23 +125,36 @@ export const extractHighestUsage = (data) => {
   return highestUsagePerDay.reverse();
 };
 
-export const calculateConsumption = (chartData, devices) => {
+export const calculateConsumptionAndCost = (
+  chartData,
+  devices,
+  rate = 10.12
+) => {
   const updatedChartData = chartData.map((data) => {
     const consumptionData = Object.entries(devices).reduce(
       (acc, [key, value]) => {
         if (data[value.name] !== undefined) {
           const deviceUptime = data[value.name];
           const deviceConsumption = deviceUptime * value.powerRating;
-          acc[value.name] = deviceConsumption;
+          const deviceCost = deviceConsumption * rate;
+          acc[value.name] = {
+            consumption: deviceConsumption,
+            cost: deviceCost,
+          };
         }
         return acc;
       },
       {}
     );
     const total = Object.values(consumptionData).reduce(
-      (sum, val) => sum + val,
-      0
+      (sum, val) => {
+        sum.consumption += val.consumption;
+        sum.cost += val.cost;
+        return sum;
+      },
+      { consumption: 0, cost: 0 }
     );
+
     return { ...data, ...consumptionData, total };
   });
 

@@ -14,9 +14,9 @@ import {
 import { useData } from "../../../contexts/data/data";
 import { Loading } from "../../loading/loading";
 import { useSettings } from "../../../contexts/settings/settings";
-import { ConsumptionTooltip } from "./consumption-tooltip";
+import { CostTooltip } from "./cost-tooltip";
 
-export const ConsumptionChart = () => {
+export const CostChart = () => {
   const { devices, consumptionData } = useData();
   const { areDevicesIncluded } = useSettings();
   const [renderedAreas, setRenderedAreas] = useState([]);
@@ -39,7 +39,7 @@ export const ConsumptionChart = () => {
 
   return (
     <div className="content-panel">
-      <h3> Consumption </h3>
+      <h3> Cost </h3>
       <div className="container">
         {consumptionData.length > 0 ? (
           <ResponsiveContainer width="100%" height="98%">
@@ -49,13 +49,13 @@ export const ConsumptionChart = () => {
               data={consumptionData}
               margin={{ right: 30 }}
             >
-              <YAxis tickFormatter={(value) => `${value} W`} />
+              <YAxis tickFormatter={(value) => `\u20B1${value}`} />
               <XAxis dataKey="date" />
               <CartesianGrid />
-              <Tooltip content={<ConsumptionTooltip />} />
+              <Tooltip content={<CostTooltip />} />
               <Area
                 type="monotone"
-                dataKey="total.consumption"
+                dataKey="total.cost"
                 stroke="var(--accent)"
                 fill="var(--accent)"
               />

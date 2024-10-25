@@ -5,7 +5,7 @@ import { onValue, ref, query, orderByChild, startAt } from "firebase/database";
 import { db } from "../../config/firebase";
 import { useAuth } from "../auth/auth";
 import {
-  calculateConsumption,
+  calculateConsumptionAndCost,
   calculateDevicesUptime,
 } from "../../utils/chart-helper";
 import { useSettings } from "../settings/settings";
@@ -63,7 +63,7 @@ export const DataProvider = ({ children }) => {
 
   useEffect(() => {
     if (chartData && devices) {
-      const data = calculateConsumption(chartData, devices);
+      const data = calculateConsumptionAndCost(chartData, devices);
       setConsumptionData(data);
     }
   }, [chartData, devices]);

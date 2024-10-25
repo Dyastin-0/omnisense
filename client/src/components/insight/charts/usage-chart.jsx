@@ -36,7 +36,6 @@ export const UsageChart = () => {
       });
       setRenderedAreas(rendered);
     };
-
     messages && devices && renderAreas();
   }, [messages, devices]);
 
