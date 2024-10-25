@@ -1,0 +1,21 @@
+.message-container {
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.message {
+  width: calc(100% - 18px);
+  word-wrap: break-word;
+  text-align: left;
+  font-size: 14px;
+  color: var(--text-color);
+  background-color: var(--secondary-color);
+  padding: 9px;
+  border-radius: 9px;
+}
+
+.message.right {
+  text-align: right;
+}

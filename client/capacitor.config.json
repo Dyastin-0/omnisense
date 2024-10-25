@@ -1,0 +1,8 @@
+{
+  "appId": "io.ionic.omnisense",
+  "appName": "omnisense",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "build",
+  "cordova": {}
+}

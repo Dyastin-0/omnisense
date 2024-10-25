@@ -1,0 +1,7 @@
+{
+    "name": "Omnisense",
+    "integrations": {
+      "capacitor": {}
+    },
+    "type": "react"
+  }

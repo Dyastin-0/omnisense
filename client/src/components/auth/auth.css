@@ -1,0 +1,72 @@
+.auth {
+  width: 267px;
+  height: fit-content;
+  padding: 18px;
+  margin-top: 200px;
+  row-gap: 9px;
+  border-radius: 9px;
+  background-color: var(--base-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.auth button {
+  width: 100%;
+  padding: 5px;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  color: var(--text-color);
+  background-color: var(--complement);
+}
+
+.password-strength-container {
+  width: 100%;
+}
+
+.password-strength {
+  width: 100%;
+  height: 10px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.password-strength::-webkit-progress-bar {
+  background-color: #e0e0e0;
+  border-radius: 5px;
+}
+
+.password-strength::-webkit-progress-value {
+  background-color: #76c7c0;
+  border-radius: 5px;
+  transition: width 0.5s;
+}
+
+.password-strength::-moz-progress-bar {
+  background-color: #76c7c0;
+  border-radius: 5px;
+  transition: width 0.5s;
+}
+
+.password-strength.red::-webkit-progress-value {
+  background-color: var(--red);
+}
+
+.password-strength.orange::-webkit-progress-value {
+  background-color: orange;
+}
+
+.password-strength.dark-green::-webkit-progress-value {
+  background-color: darkgreen;
+}
+
+.password-strength.green::-webkit-progress-value {
+  background-color: green;
+}
+
+.password-strength-container p {
+  margin: 5px 0 0;
+  font-size: 0.9em;
+}

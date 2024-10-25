@@ -1,0 +1,56 @@
+.nav-button {
+  padding: 9px;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  column-gap: 9px;
+  border: none;
+  border-radius: 9px;
+  color: var(--text-color);
+  background-color: transparent;
+}
+
+.nav-button.fit {
+  width: fit-content;
+}
+
+.nav-button.link {
+  width: fit-content;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+.nav-button.link:hover {
+  color: var(--accent);
+  background-color: transparent;
+}
+
+.nav-button.center {
+  justify-content: center;
+}
+
+.nav-button.bold {
+  font-weight: bold;
+}
+
+.nav-button.fixed {
+  position: fixed;
+  bottom: 9px;
+  right: 9px;
+}
+
+.nav-button:hover {
+  cursor: pointer;
+  background-color: var(--accent);
+}
+
+.nav-button.round {
+  padding-top: 18px;
+  padding-bottom: 18px;
+  border-radius: 50%;
+}
+
+.nav-button.small {
+  font-size: 11px;
+}
