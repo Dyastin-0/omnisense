@@ -8,7 +8,6 @@ import { Layout } from "./layout";
 import Home from "./views/home";
 
 const App = () => {
-  console.log("TEST");
   const [toastMessage, setToastMessage] = useState(null);
   const router = createBrowserRouter([
     {
