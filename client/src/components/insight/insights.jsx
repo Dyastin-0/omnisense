@@ -15,7 +15,7 @@ const Insights = () => {
           Logs: ${JSON.stringify(messages)}\n
           Devices: ${JSON.stringify(devices)}\n
           Consumption and Cost Data: ${JSON.stringify(consumptionAndCostData)}\n
-          Generate the insights with these considerations: use bullets \u2022; refer to me as 'you'; don't write titles;.`
+          Generate the insights with these considerations: use bullets \u2022; refer to me as 'you'; don't write titles; focus on logs and consumption & cost.`
         );
 
         setGeneratedInsights(data.split(/[\u2022\u002A]/));
