@@ -10,7 +10,7 @@ export const ConsumptionTooltip = ({ active, payload, label }) => {
           return (
             <div className="row left" key={key}>
               <p>{load.name.split(".")[0]}</p>
-              <h6>{`${value.toFixed(2)} W`}</h6>
+              <h6>{`${value.toFixed(2)} kWh`}</h6>
             </div>
           );
         })}

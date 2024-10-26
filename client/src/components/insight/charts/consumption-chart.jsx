@@ -49,7 +49,7 @@ export const ConsumptionChart = () => {
               data={consumptionAndCostData}
               margin={{ right: 30 }}
             >
-              <YAxis tickFormatter={(value) => `${value} W`} />
+              <YAxis tickFormatter={(value) => `${value} kWh`} />
               <XAxis dataKey="date" />
               <CartesianGrid />
               <Tooltip content={<ConsumptionTooltip />} />

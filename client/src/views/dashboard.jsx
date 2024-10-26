@@ -8,9 +8,10 @@ import { DevicePanel } from "../components/device/device-panel";
 import { MessagePanel } from "../components/log/log-panel";
 import { UsageChart } from "../components/insight/charts/usage-chart";
 import { Pad } from "../components/Pad/Pad";
-import { Insight } from "../components/insight/trends";
+import { Trends } from "../components/insight/trends";
 import { ConsumptionChart } from "../components/insight/charts/consumption-chart";
 import { CostChart } from "../components/insight/charts/cost-chart";
+import Insights from "../components/insight/insights";
 
 const Dashboard = ({ setToastMessage }) => {
   const navigate = useNavigate();
@@ -50,8 +51,9 @@ const Dashboard = ({ setToastMessage }) => {
       <UsageChart />
       <ConsumptionChart />
       <CostChart />
-      <Insight />
+      <Trends />
       <DevicePanel setToastMessage={setToastMessage} />
+      {/* <Insights /> */}
       <MessagePanel />
       <Pad options={{ panel: "flex-max small" }} />
     </main>

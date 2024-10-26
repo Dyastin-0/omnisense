@@ -102,27 +102,47 @@ export const calculateDevicesUptime = (messages, includeInactiveDays) => {
   return finalDayTotal;
 };
 
-export const extractHighestUsage = (data) => {
-  const highestUsagePerDay = [];
+export const extractHighestUsage = (consumptionAndCostData, devices) => {
+  const insights = consumptionAndCostData.map((data) => {
+    let highest = {
+      name: null,
+      cost: 0,
+      usage: 0,
+      consumption: 0,
+    };
 
-  data.forEach((entry) => {
-    let highestUsageDevice = null;
-    let highestUsage = 0;
-    Object.keys(entry).forEach((key) => {
-      if (key !== "date" && key !== "total" && entry[key] > highestUsage) {
-        highestUsage = entry[key];
-        highestUsageDevice = key;
+    let total = {
+      usage: 0,
+      cost: 0,
+      consumption: 0,
+    };
+
+    Object.entries(devices).forEach(([key, value]) => {
+      if (data[value.name] !== undefined) {
+        const deviceData = data[value.name];
+        total.usage += (deviceData.consumption * 1000) / value.powerRating;
+        total.cost += deviceData.cost;
+        total.consumption += deviceData.consumption;
+
+        if (deviceData.consumption > highest.consumption) {
+          highest = {
+            name: value.name,
+            cost: deviceData.cost,
+            usage: (deviceData.consumption * 1000) / value.powerRating,
+            consumption: deviceData.consumption,
+          };
+        }
       }
     });
-    highestUsagePerDay.push({
-      date: entry.date,
-      total: entry.total,
-      highestDevice: highestUsageDevice,
-      highestUsage: entry[highestUsageDevice],
-    });
+
+    return {
+      date: data.date,
+      highest,
+      total,
+    };
   });
 
-  return highestUsagePerDay.reverse();
+  return insights.reverse();
 };
 
 export const calculateConsumptionAndCost = (
@@ -135,8 +155,8 @@ export const calculateConsumptionAndCost = (
       (acc, [key, value]) => {
         if (data[value.name] !== undefined) {
           const deviceUptime = data[value.name];
-          const deviceConsumption = deviceUptime * value.powerRating;
-          const deviceCost = (deviceConsumption / 1000) * rate;
+          const deviceConsumption = (deviceUptime * value.powerRating) / 1000;
+          const deviceCost = deviceConsumption * rate;
           acc[value.name] = {
             consumption: deviceConsumption,
             cost: deviceCost,
