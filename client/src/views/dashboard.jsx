@@ -53,7 +53,7 @@ const Dashboard = ({ setToastMessage }) => {
       <CostChart />
       <Trends />
       <DevicePanel setToastMessage={setToastMessage} />
-      {/* <Insights /> */}
+      <Insights />
       <MessagePanel />
       <Pad options={{ panel: "flex-max small" }} />
     </main>
