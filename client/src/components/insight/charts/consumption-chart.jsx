@@ -17,7 +17,7 @@ import { useSettings } from "../../../contexts/settings/settings";
 import { ConsumptionTooltip } from "./consumption-tooltip";
 
 export const ConsumptionChart = () => {
-  const { devices, consumptionData } = useData();
+  const { devices, consumptionAndCostData } = useData();
   const { areDevicesIncluded } = useSettings();
   const [renderedAreas, setRenderedAreas] = useState([]);
 
@@ -35,18 +35,18 @@ export const ConsumptionChart = () => {
 
       setRenderedAreas(rendered);
     }
-  }, [devices, consumptionData]);
+  }, [devices, consumptionAndCostData]);
 
   return (
     <div className="content-panel">
       <h3> Consumption </h3>
       <div className="container">
-        {consumptionData.length > 0 ? (
+        {consumptionAndCostData.length > 0 ? (
           <ResponsiveContainer width="100%" height="98%">
             <AreaChart
               width="100%"
               height="100%"
-              data={consumptionData}
+              data={consumptionAndCostData}
               margin={{ right: 30 }}
             >
               <YAxis tickFormatter={(value) => `${value} W`} />

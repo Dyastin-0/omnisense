@@ -6,7 +6,6 @@ export const ConsumptionTooltip = ({ active, payload, label }) => {
       <div className="tooltip">
         <h5>{label}</h5>
         {payload.map((load, key) => {
-          console.log(load);
           const value = load.value.consumption || load.value;
           return (
             <div className="row left" key={key}>

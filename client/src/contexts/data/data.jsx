@@ -22,7 +22,7 @@ export const DataProvider = ({ children }) => {
   const [devices, setDevices] = useState(null);
   const [messages, setMessages] = useState(null);
   const [chartData, setChartData] = useState([]);
-  const [consumptionData, setConsumptionData] = useState([]);
+  const [consumptionAndCostData, setConsumptionAndCostData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -64,7 +64,7 @@ export const DataProvider = ({ children }) => {
   useEffect(() => {
     if (chartData && devices) {
       const data = calculateConsumptionAndCost(chartData, devices);
-      setConsumptionData(data);
+      setConsumptionAndCostData(data);
     }
   }, [chartData, devices]);
 
@@ -73,7 +73,7 @@ export const DataProvider = ({ children }) => {
     messages,
     isFetching,
     chartData,
-    consumptionData,
+    consumptionAndCostData,
   };
 
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;
