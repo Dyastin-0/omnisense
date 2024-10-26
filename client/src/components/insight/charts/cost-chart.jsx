@@ -27,7 +27,7 @@ export const CostChart = () => {
         <Area
           key={index}
           type="monotone"
-          dataKey={value.name}
+          dataKey={`${value.name}.cost`}
           stroke="var(--accent)"
           fill="var(--accent)"
         />

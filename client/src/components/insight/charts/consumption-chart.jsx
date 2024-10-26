@@ -27,7 +27,7 @@ export const ConsumptionChart = () => {
         <Area
           key={index}
           type="monotone"
-          dataKey={value.name}
+          dataKey={`${value.name}.consumption`}
           stroke="var(--accent)"
           fill="var(--accent)"
         />
@@ -35,7 +35,7 @@ export const ConsumptionChart = () => {
 
       setRenderedAreas(rendered);
     }
-  }, [devices]);
+  }, [devices, consumptionData]);
 
   return (
     <div className="content-panel">
