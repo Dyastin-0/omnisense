@@ -7,7 +7,7 @@ const Insights = () => {
   const [generatedInsights, setGeneratedInsights] = useState([]);
 
   useEffect(() => {
-    if (messages?.length > 0) {
+    if (consumptionAndCostData.length > 0) {
       const gen = async () => {
         const data = await askGemini(
           `Analyze the data and generate insights.
@@ -22,7 +22,7 @@ const Insights = () => {
       };
       gen();
     }
-  }, [messages]);
+  }, [consumptionAndCostData]);
   return (
     <div className="content-panel">
       <h3> Insights </h3>
