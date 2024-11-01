@@ -1,8 +1,11 @@
 import { useSettings } from "../../../contexts/settings/settings";
 import { GenericModal } from "../modal";
 import Toggle from "../../toggle/toggle";
+import { Dropdown } from "../../dropdown/dropdown";
+import { useData } from "../../../contexts/data/data";
+import { Button } from "../../button/button";
 
-export const SettingsModal = ({ active, closeModal }) => {
+export const SettingsModal = ({ active, closeModal, setToastMessage }) => {
   const {
     theme,
     toggleTheme,
@@ -10,7 +13,10 @@ export const SettingsModal = ({ active, closeModal }) => {
     areDevicesIncluded,
     toggleIncludeInactiveDays,
     areInactiveDaysIncluded,
+    setSelectedInstance,
+    selectedInstance,
   } = useSettings();
+  const { instances } = useData();
 
   return (
     <GenericModal
@@ -21,6 +27,26 @@ export const SettingsModal = ({ active, closeModal }) => {
       content={
         <div className="modal-content-container">
           <p className="description">General</p>
+          <div className="row left">
+            <Dropdown name="Select">
+              {instances?.map((instance, index) => (
+                <Button
+                  className="nav-button"
+                  onclick={() => {
+                    if (instance === selectedInstance) {
+                      setToastMessage(`Instance already set to ${instance}.`);
+                      return;
+                    }
+                    setSelectedInstance(instance);
+                    setToastMessage(`Instance set to ${instance}.`);
+                  }}
+                  key={index}
+                  text={instance}
+                />
+              ))}
+            </Dropdown>
+            <p>Instance</p>
+          </div>
           <div className="row left">
             <Toggle
               checked={theme === "dark"}

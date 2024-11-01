@@ -23,9 +23,15 @@ export const DataProvider = ({ children }) => {
   const [messages, setMessages] = useState(null);
   const [chartData, setChartData] = useState([]);
   const [consumptionAndCostData, setConsumptionAndCostData] = useState([]);
+  const [instances, setInstances] = useState(["Default"]);
 
   useEffect(() => {
     const fetchData = async () => {
+      const instancesRef = ref(db, `/${user.uid}`);
+      onValue(instancesRef, (snapshot) => {
+        setInstances(Object.keys(snapshot.val()) || []);
+      });
+
       const devicesRef = ref(db, `/${userDataPath}/devices`);
 
       onValue(devicesRef, (snapshot) => {
@@ -35,6 +41,7 @@ export const DataProvider = ({ children }) => {
       const currentTimestamp = Date.now();
       const sevenDaysAgoTimestamp =
         currentTimestamp - 8 * 24 * 60 * 60 * 1000 + 1000;
+
       const messagesRef = ref(db, `/${userDataPath}/messages`);
       const queryRef = query(
         messagesRef,
@@ -74,6 +81,7 @@ export const DataProvider = ({ children }) => {
     isFetching,
     chartData,
     consumptionAndCostData,
+    instances,
   };
 
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;

@@ -1,3 +1,4 @@
+import { set } from "firebase/database";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 const SettingsContext = createContext();
@@ -8,6 +9,7 @@ export const SettingsProvider = ({ children }) => {
   const [theme, setTheme] = useState("light");
   const [areDevicesIncluded, setAreDevicesIncluded] = useState(false);
   const [areInactiveDaysIncluded, setAreInactiveDaysIncluded] = useState(false);
+  const [selectedInstance, setSelectedInstance] = useState("Default");
 
   const toggleIncludeDevice = () => {
     const current = !areDevicesIncluded;
@@ -26,6 +28,12 @@ export const SettingsProvider = ({ children }) => {
     const inactiveDaysIncluded = localStorage.getItem(
       "areInactiveDaysIncluded"
     );
+    const selectedInstance = localStorage.getItem("selectedInstance");
+
+    if (selectedInstance !== null) {
+      setSelectedInstance(selectedInstance);
+    }
+
     if (deviceIncluded !== null) {
       setAreDevicesIncluded(deviceIncluded === "true");
     }
@@ -68,6 +76,8 @@ export const SettingsProvider = ({ children }) => {
     toggleIncludeDevice,
     areInactiveDaysIncluded,
     toggleIncludeInactiveDays,
+    selectedInstance,
+    setSelectedInstance,
   };
 
   return (

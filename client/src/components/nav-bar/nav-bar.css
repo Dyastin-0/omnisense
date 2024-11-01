@@ -12,3 +12,11 @@
   z-index: 110;
   border-radius: 13px;
 }
+
+.fixed-bottom {
+  display: flex;
+  gap: 0.5rem;
+  position: fixed;
+  bottom: 9px;
+  right: 9px;
+}

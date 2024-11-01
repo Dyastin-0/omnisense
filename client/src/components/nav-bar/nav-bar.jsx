@@ -13,8 +13,10 @@ import { useAuth } from "../../contexts/auth/auth";
 import { SettingsModal } from "../modals/settings/settings-modal";
 import { AccountLinking } from "../modals/account-linking/account-linking";
 import { AddDeviceModal } from "../modals/add-device/add-device";
+import { CreateInstanceModal } from "../modals/create-instance/create-instance";
 
 export const NavBar = ({ toastMessage, setToastMessage }) => {
+  //Fucking abomination this modal management---to be refactored
   const { isLoggedIn, isLinked, userDataPath } = useAuth();
   const [isHelpClicked, setIsHelpClicked] = useState(false);
   const [isInfoClicked, setIsInfoClicked] = useState(false);
@@ -23,6 +25,8 @@ export const NavBar = ({ toastMessage, setToastMessage }) => {
   const [isUserProfileOpen, setIsUserProfileOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [isAccountLinkingOpen, setIsAccountLinkingOpen] = useState(false);
+  const [isCreateInstanceModalOpen, setIsCreateInstanceModalOpen] =
+    useState(false);
   const [accountLinkReminder, setAccountLinkReminder] = useState(0);
 
   const [confirmEvent, setConfirmEvent] = useState(null);
@@ -80,6 +84,8 @@ export const NavBar = ({ toastMessage, setToastMessage }) => {
   const closeSettings = () => setIsSettingsModalOpen(false);
   const openSettings = () => setIsSettingsModalOpen(true);
 
+  const openCreateInstanceModal = () => setIsCreateInstanceModalOpen(true);
+
   return (
     <div className="nav-bar">
       <i className="fa-solid fa-toggle-on fa-2x"></i>
@@ -107,13 +113,6 @@ export const NavBar = ({ toastMessage, setToastMessage }) => {
               ></i>
             }
           />
-          {isLoggedIn && (
-            <Button
-              className="nav-button round fixed"
-              icon={<i className="fa-solid fa-circle-plus fa-xl fa-bounce"></i>}
-              onclick={openAddDeviceModal}
-            />
-          )}
         </div>
         <UserDropdown
           openSettings={openSettings}
@@ -122,9 +121,6 @@ export const NavBar = ({ toastMessage, setToastMessage }) => {
       </div>
       <HelpModal active={isHelpModalOpen} closeModal={closeHelpModal} />
       <InfoModal active={isInfoModalOpen} closeModal={closeInfoModal} />
-      {isLoggedIn && (
-        <UserProfile active={isUserProfileOpen} closeModal={closeUserProfile} />
-      )}
       <ConfirmDialogModal
         closeModal={() => false}
         setToastMessage={setToastMessage}
@@ -133,10 +129,44 @@ export const NavBar = ({ toastMessage, setToastMessage }) => {
       />
       <ToastMessage message={toastMessage} setToastMessage={setToastMessage} />
       {isLoggedIn && (
-        <SettingsModal
-          active={isSettingsModalOpen}
-          closeModal={closeSettings}
-        />
+        <>
+          <SettingsModal
+            active={isSettingsModalOpen}
+            closeModal={closeSettings}
+            setToastMessage={setToastMessage}
+          />
+          <AddDeviceModal
+            setConfirmEvent={setConfirmEvent}
+            setConfirmMessage={setConfirmMessage}
+            setToastMessage={setToastMessage}
+            active={isAddDeviceOpen}
+            closeModal={closeAddDeviceModal}
+            path={userDataPath}
+          />
+          <UserProfile
+            active={isUserProfileOpen}
+            closeModal={closeUserProfile}
+          />
+          <CreateInstanceModal
+            active={isCreateInstanceModalOpen}
+            closeModal={() => setIsCreateInstanceModalOpen(false)}
+            setToastMessage={setToastMessage}
+            setConfirmEvent={setConfirmEvent}
+            setConfirmMessage={setConfirmMessage}
+          />
+          <div className="fixed-bottom">
+            <Button
+              className="nav-button round"
+              icon={<i className="fa-solid fa-circle-plus fa-xl"></i>}
+              onclick={openAddDeviceModal}
+            />
+            <Button
+              className="nav-button blue"
+              text="Create Instance"
+              onclick={openCreateInstanceModal}
+            />
+          </div>
+        </>
       )}
       {!(new Date().getTime() < accountLinkReminder) &&
         isLoggedIn &&
@@ -147,16 +177,6 @@ export const NavBar = ({ toastMessage, setToastMessage }) => {
             active={isAccountLinkingOpen}
           />
         )}
-      {isLoggedIn && (
-        <AddDeviceModal
-          setConfirmEvent={setConfirmEvent}
-          setConfirmMessage={setConfirmMessage}
-          setToastMessage={setToastMessage}
-          active={isAddDeviceOpen}
-          closeModal={closeAddDeviceModal}
-          path={userDataPath}
-        />
-      )}
     </div>
   );
 };

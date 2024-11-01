@@ -3,12 +3,14 @@ import React, { useEffect, useState, useContext, createContext } from "react";
 import { auth } from "../../config/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { SplashScreen } from "../../components/splash-screen/splash-screen";
+import { useSettings } from "../settings/settings";
 
 const AuthContext = createContext();
 
 export const useAuth = () => useContext(AuthContext);
 
 export function AuthProvider({ children }) {
+  const { selectedInstance } = useSettings();
   const [user, setUser] = useState(null);
   const [userDataPath, setUserDataPath] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -20,7 +22,7 @@ export function AuthProvider({ children }) {
       initializeUser(user)
     );
     return unsubscribe;
-  }, []);
+  }, [selectedInstance]);
 
   const initializeUser = async (user) => {
     if (user) {
@@ -28,7 +30,7 @@ export function AuthProvider({ children }) {
         user.providerData.some((provider) => provider.providerId === "password")
       );
       setUser(user);
-      setUserDataPath(`/${user.uid}`);
+      setUserDataPath(`/${user.uid}/${selectedInstance}`);
       setIsLoggedIn(true);
     } else {
       setUser(null);

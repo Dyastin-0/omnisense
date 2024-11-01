@@ -15,6 +15,11 @@
   width: fit-content;
 }
 
+.nav-button.full {
+  width: 100%;
+  justify-content: center;
+}
+
 .nav-button.link {
   width: fit-content;
   background-color: transparent;
@@ -34,12 +39,6 @@
   font-weight: bold;
 }
 
-.nav-button.fixed {
-  position: fixed;
-  bottom: 9px;
-  right: 9px;
-}
-
 .nav-button:hover {
   cursor: pointer;
   background-color: var(--accent);
@@ -53,4 +52,9 @@
 
 .nav-button.small {
   font-size: 11px;
+}
+
+.nav-button.blue {
+  background-color: var(--accent);
+  color: white;
 }

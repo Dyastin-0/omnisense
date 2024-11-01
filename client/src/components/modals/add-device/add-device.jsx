@@ -12,7 +12,7 @@ export const AddDeviceModal = ({
   closeModal,
   active,
 }) => {
-  const { user, userDataPath } = useAuth();
+  const { userDataPath } = useAuth();
 
   const [deviceName, setDeviceName] = useState(null);
   const [devicePin, setDevicePin] = useState(null);
@@ -32,6 +32,10 @@ export const AddDeviceModal = ({
         return async () => {
           await addDevice(userDataPath, deviceName, devicePin, powerRating);
           setToastMessage(`Device ${deviceName.toLocaleLowerCase()} added.`);
+          setDeviceName("");
+          setDevicePin("");
+          setPowerRating("");
+          closeModal();
         };
       };
       setConfirmEvent(event);
@@ -58,7 +62,9 @@ export const AddDeviceModal = ({
             placeholder="Pin number"
             onChange={(e) => setPowerRating(e.target.value)}
           />
-          <button type="submit">Add Device</button>
+          <button className="nav-button center" type="submit">
+            Add Device
+          </button>
         </form>
       }
     />
