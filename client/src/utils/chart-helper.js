@@ -45,45 +45,61 @@ export const calculateDevicesUptime = (messages, includeInactiveDays) => {
         onFormattedDate = "Today";
       }
 
-      const diff = timeSent - latestOn[name].time;
-      const diffHours = diff / 3600000;
+      let currentDate = new Date(onDate);
+      currentDate.setHours(23, 59, 59, 999);
+      let remainingTime = timeSent - currentDate.getTime();
 
-      if (formattedDate === onFormattedDate) {
-        if (!dayTotal[onFormattedDate]) {
-          dayTotal[onFormattedDate] = { date: onFormattedDate, total: 0 };
-        }
-        dayTotal[onFormattedDate].total += diffHours;
-        if (!dayTotal[onFormattedDate][name]) {
-          dayTotal[onFormattedDate][name] = 0;
-        }
-        dayTotal[onFormattedDate][name] += diffHours;
-      } else {
-        const endOfDay = new Date(onDate);
-        endOfDay.setHours(23, 59, 59, 999);
-        const firstDayHours = (endOfDay - onDate) / 3600000;
-
-        const startOfDay = new Date(date);
-        startOfDay.setHours(0, 0, 0, 0);
-        const secondDayHours = (date - startOfDay) / 3600000;
-
-        if (!dayTotal[onFormattedDate]) {
-          dayTotal[onFormattedDate] = { date: onFormattedDate, total: 0 };
-        }
-        dayTotal[onFormattedDate].total += firstDayHours;
-        if (!dayTotal[onFormattedDate][name]) {
-          dayTotal[onFormattedDate][name] = 0;
-        }
-        dayTotal[onFormattedDate][name] += firstDayHours;
-
-        if (!dayTotal[formattedDate]) {
-          dayTotal[formattedDate] = { date: formattedDate, total: 0 };
-        }
-        dayTotal[formattedDate].total += secondDayHours;
-        if (!dayTotal[formattedDate][name]) {
-          dayTotal[formattedDate][name] = 0;
-        }
-        dayTotal[formattedDate][name] += secondDayHours;
+      const firstDayHours =
+        (currentDate.getTime() - onDate.getTime()) / 3600000;
+      if (!dayTotal[onFormattedDate]) {
+        dayTotal[onFormattedDate] = { date: onFormattedDate, total: 0 };
       }
+      dayTotal[onFormattedDate].total += firstDayHours;
+      if (!dayTotal[onFormattedDate][name]) {
+        dayTotal[onFormattedDate][name] = 0;
+      }
+      dayTotal[onFormattedDate][name] += firstDayHours;
+
+      currentDate.setDate(currentDate.getDate() + 1);
+      currentDate.setHours(0, 0, 0, 0);
+      onFormattedDate = currentDate.toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+      });
+      if (onFormattedDate === today) {
+        onFormattedDate = "Today";
+      }
+
+      while (remainingTime > 86400000) {
+        if (!dayTotal[onFormattedDate]) {
+          dayTotal[onFormattedDate] = { date: onFormattedDate, total: 0 };
+        }
+        dayTotal[onFormattedDate].total += 24;
+        if (!dayTotal[onFormattedDate][name]) {
+          dayTotal[onFormattedDate][name] = 0;
+        }
+        dayTotal[onFormattedDate][name] += 24;
+
+        remainingTime -= 86400000;
+        currentDate.setDate(currentDate.getDate() + 1);
+        onFormattedDate = currentDate.toLocaleDateString("en-US", {
+          month: "long",
+          day: "numeric",
+        });
+        if (onFormattedDate === today) {
+          onFormattedDate = "Today";
+        }
+      }
+
+      const lastDayHours = remainingTime / 3600000;
+      if (!dayTotal[formattedDate]) {
+        dayTotal[formattedDate] = { date: formattedDate, total: 0 };
+      }
+      dayTotal[formattedDate].total += lastDayHours;
+      if (!dayTotal[formattedDate][name]) {
+        dayTotal[formattedDate][name] = 0;
+      }
+      dayTotal[formattedDate][name] += lastDayHours;
 
       delete latestOn[name];
     }
