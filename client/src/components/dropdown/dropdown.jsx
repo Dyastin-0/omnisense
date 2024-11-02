@@ -6,7 +6,8 @@ import { Button } from "../button/button";
 export const Dropdown = ({ buttonSize, name, children, className, width }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggle = () => {
+  const toggle = (e) => {
+    e.preventDefault();
     setIsOpen(!isOpen);
   };
   return (

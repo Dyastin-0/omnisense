@@ -36,6 +36,7 @@ export const CreateInstanceModal = ({
           description: instanceDescription,
           devices: [],
           messages: [],
+          microcontroller: "ESP-32-WROOM 38 Pins",
         });
         setToastMessage(`Instance ${instanceName} created.`);
         setInstanceDescription("");

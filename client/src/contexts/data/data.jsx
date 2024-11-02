@@ -24,12 +24,18 @@ export const DataProvider = ({ children }) => {
   const [chartData, setChartData] = useState([]);
   const [consumptionAndCostData, setConsumptionAndCostData] = useState([]);
   const [instances, setInstances] = useState(["Default"]);
+  const [microcontroller, setMicrocontroller] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       const instancesRef = ref(db, `/${user.uid}`);
       onValue(instancesRef, (snapshot) => {
         setInstances(Object.keys(snapshot.val()) || []);
+      });
+
+      const instanceRef = ref(db, `/${userDataPath}`);
+      onValue(instanceRef, (snapshot) => {
+        setMicrocontroller(snapshot.val()?.microcontroller);
       });
 
       const devicesRef = ref(db, `/${userDataPath}/devices`);
@@ -82,6 +88,7 @@ export const DataProvider = ({ children }) => {
     chartData,
     consumptionAndCostData,
     instances,
+    microcontroller,
   };
 
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;

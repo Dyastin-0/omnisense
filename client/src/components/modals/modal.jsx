@@ -32,7 +32,7 @@ export const GenericModal = ({
           <Button
             className="nav-button"
             onclick={closeModal}
-            icon={<i className="fa-solid fa-xmark"></i>}
+            icon={<i className="fa-solid fa-x" />}
           />
         </div>
         <div className="modal-content">{content}</div>

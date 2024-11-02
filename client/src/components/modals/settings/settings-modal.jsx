@@ -16,7 +16,7 @@ export const SettingsModal = ({ active, closeModal, setToastMessage }) => {
     setSelectedInstance,
     selectedInstance,
   } = useSettings();
-  const { instances } = useData();
+  const { instances, microcontroller } = useData();
 
   return (
     <GenericModal
@@ -73,6 +73,7 @@ export const SettingsModal = ({ active, closeModal, setToastMessage }) => {
             <p>Include inactive days</p>
           </div>
           <p className="description">Microcontroller</p>
+          <h5>{microcontroller}</h5>
         </div>
       }
     />
