@@ -19,9 +19,9 @@ export const AddDeviceModal = ({
   const { userDataPath } = useAuth();
   const { devices } = useData();
 
-  const [deviceName, setDeviceName] = useState(null);
-  const [devicePin, setDevicePin] = useState(null);
-  const [powerRating, setPowerRating] = useState(null);
+  const [deviceName, setDeviceName] = useState("");
+  const [devicePin, setDevicePin] = useState("");
+  const [powerRating, setPowerRating] = useState("");
 
   const handleAddDevice = async (e) => {
     e.preventDefault();

@@ -31,7 +31,7 @@ export const DevicePanel = ({ setToastMessage }) => {
               className={`fa-solid fa-${value.name.toLowerCase()} ${
                 !value.enabled ? "red" : undefined
               }`}
-            ></i>
+            />
           }
           checked={value.state}
           path={`/${userDataPath}/toggles/${index}/state`}
