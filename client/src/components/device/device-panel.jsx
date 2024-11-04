@@ -10,7 +10,7 @@ import { useAuth } from "../../contexts/auth/auth";
 import { Device } from "./device";
 
 export const DevicePanel = ({ setToastMessage }) => {
-  const { devices, isFetching } = useData();
+  const { devices } = useData();
   const { user, userDataPath } = useAuth();
   const [renderedToggles, setRenderedToggles] = useState([]);
 
@@ -47,7 +47,7 @@ export const DevicePanel = ({ setToastMessage }) => {
     <div className="content-panel">
       <h3> Devices </h3>
       <div className="container">
-        {!isFetching && renderedToggles.length > 0 ? (
+        {renderedToggles.length > 0 ? (
           renderedToggles.map((toggle, index) => (
             <React.Fragment key={index}>{toggle}</React.Fragment>
           ))
