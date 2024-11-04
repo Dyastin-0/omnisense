@@ -73,9 +73,6 @@ export const SignUpWindow = ({ setToastMessage }) => {
     if (!signingUp) {
       setSigningUp(true);
       const result = await signUp(email, password)
-        .then((user) => {
-          pushInArray(`/${user.user.uid}/instances`, "Default");
-        })
         .catch(() => {
           setErrorMessage(
             "Sign up failed. Your email might already be used or in incorrect format."
@@ -90,6 +87,7 @@ export const SignUpWindow = ({ setToastMessage }) => {
       await updateUser(result.user, {
         displayName: displayName,
       });
+      await pushInArray(result.user.uid, "Default");
     }
   };
 
