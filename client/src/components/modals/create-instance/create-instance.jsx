@@ -3,6 +3,7 @@ import { setData } from "../../../config/database";
 import { useAuth } from "../../../contexts/auth/auth";
 import { GenericModal } from "../modal";
 import { useData } from "../../../contexts/data/data";
+import { addInstance } from "../../../utils/data-helper";
 
 export const CreateInstanceModal = ({
   active,
@@ -38,6 +39,7 @@ export const CreateInstanceModal = ({
           messages: [],
           microcontroller: "ESP-32-WROOM 38 Pins",
         });
+        await addInstance(user.uid, instanceName.replace(/ /g, "%20"));
         setToastMessage(`Instance ${instanceName} created.`);
         setInstanceDescription("");
         setInstanceName("");

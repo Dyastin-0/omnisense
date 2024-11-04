@@ -23,3 +23,8 @@ export const addDevice = async (
     state: 0,
   });
 };
+
+export const addInstance = async (userPath, deviceName) => {
+  console.log(userPath, deviceName);
+  await pushInArray(`/${userPath}/instances`, deviceName);
+};

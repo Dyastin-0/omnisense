@@ -38,9 +38,9 @@ export function listenToChangesOn(dataPath) {
 export async function pushInArray(dataPath, data) {
   const dataRef = ref(db, dataPath);
   const snapShot = await get(dataRef);
-  const messages = (await snapShot.val()) || [];
-  messages.push(data);
-  set(dataRef, messages);
+  const array = (await snapShot.val()) || [];
+  array.push(data);
+  set(dataRef, array);
 }
 
 export async function arrayIncludes(dataPath, data) {
