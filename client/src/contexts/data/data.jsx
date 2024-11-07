@@ -30,7 +30,7 @@ export const DataProvider = ({ children }) => {
     const fetchData = async () => {
       const instancesRef = ref(db, `/${user.uid}`);
       onValue(instancesRef, (snapshot) => {
-        setInstances(Object.keys(snapshot.val()) || []);
+        setInstances(Object.keys(snapshot.val()).filter(((val) => val !== "instances")) || []);
       });
 
       const instanceRef = ref(db, `/${userDataPath}`);
