@@ -17,9 +17,17 @@ import { CustomTooltip } from "./custom-tooltip";
 import { useSettings } from "../../../contexts/settings/settings";
 
 export const UsageChart = () => {
-  const { devices, messages, chartData } = useData();
+  const { devices, messages, monthsUptime, currentMonth } = useData();
   const { areDevicesIncluded } = useSettings();
   const [renderedAreas, setRenderedAreas] = useState([]);
+  const [uptime, setUptime] = useState([]);
+
+  useEffect(() => {
+    if (monthsUptime.length > 0 && currentMonth) {
+      const uptime = monthsUptime.find((month) => month.month === currentMonth);
+      setUptime(uptime.data);
+    }
+  }, [monthsUptime]);
 
   useEffect(() => {
     const renderAreas = () => {
@@ -43,12 +51,12 @@ export const UsageChart = () => {
     <div className="content-panel">
       <h3> Usage </h3>
       <div className="container">
-        {chartData.length > 0 ? (
+        {uptime.length > 0 ? (
           <ResponsiveContainer width="100%" height="98%">
             <AreaChart
               width="100%"
               height="100%"
-              data={chartData}
+              data={uptime}
               margin={{ right: 30 }}
             >
               <YAxis

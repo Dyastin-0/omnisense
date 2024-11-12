@@ -19,13 +19,12 @@ export const Device = ({
 }) => {
   const { userDataPath } = useAuth();
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [deviceEnabled, setDeviceEnabled] = useState(enabled);
 
   const openSettings = useCallback(() => setIsSettingsOpen(true), []);
   const closeSettings = useCallback(() => setIsSettingsOpen(false), []);
 
   const handleStateChange = (newState) => {
-    if (!deviceEnabled) {
+    if (!enabled) {
       setToastMessage(`${deviceName} is disabled.`);
       return;
     }
@@ -42,11 +41,10 @@ export const Device = ({
   };
 
   const handleDeviceState = (newState) => {
-    if (state) {
+    if (checked) {
       setToastMessage(`${deviceName} is on, turn it off first.`);
       return;
     }
-    setDeviceEnabled(newState);
     const action = newState ? "enabled" : "disabled";
     const message = {
       action: action,
@@ -74,7 +72,7 @@ export const Device = ({
         />
         <DeviceSettings
           handleDeviceState={handleDeviceState}
-          enabled={deviceEnabled}
+          enabled={enabled}
           devicePin={devicePin}
           powerRating={powerRating}
           index={index}

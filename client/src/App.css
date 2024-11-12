@@ -5,7 +5,8 @@
   --text-color: rgb(80, 80, 80);
 
   --shadow: rgba(0, 0, 0, 0.1);
-  --accent: rgba(31, 117, 254, 0.5);
+  --accent: rgb(31, 117, 254);
+  --secondary-accent: rgb(2, 68, 161);
   --description: rgb(132, 136, 132);
   --red: rgb(136, 0, 0);
 }

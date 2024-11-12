@@ -6,18 +6,15 @@ import { extractHighestUsage } from "../../utils/chart-helper";
 import { Loading } from "../loading/loading";
 
 export const Trends = () => {
-  const { consumptionAndCostData, devices } = useData();
+  const { currentMonthData, devices } = useData();
   const [insights, setInsights] = useState([]);
 
   useEffect(() => {
-    if (consumptionAndCostData.length > 0) {
-      const deconstructed = extractHighestUsage(
-        consumptionAndCostData,
-        devices
-      );
+    if (currentMonthData?.days?.length > 0) {
+      const deconstructed = extractHighestUsage(currentMonthData.days, devices);
       setInsights(deconstructed);
     }
-  }, [consumptionAndCostData, devices]);
+  }, [currentMonthData, devices]);
 
   return (
     <div className="content-panel">

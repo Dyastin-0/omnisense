@@ -13,6 +13,7 @@ import { ConsumptionChart } from "../components/insight/charts/consumption-chart
 import { CostChart } from "../components/insight/charts/cost-chart";
 import Insights from "../components/insight/insights";
 import { useSettings } from "../contexts/settings/settings";
+import SummaryChart from "../components/insight/charts/summary-chart";
 
 const Dashboard = ({ setToastMessage }) => {
   const navigate = useNavigate();
@@ -44,6 +45,7 @@ const Dashboard = ({ setToastMessage }) => {
       <DevicePanel setToastMessage={setToastMessage} />
       {/* <Insights /> */}
       <MessagePanel />
+      <SummaryChart />
       <Pad options={{ panel: "flex-max small" }} />
     </main>
   );

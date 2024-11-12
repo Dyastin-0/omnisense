@@ -1,5 +1,4 @@
-import { set } from "firebase/database";
-import React, { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const SettingsContext = createContext();
 

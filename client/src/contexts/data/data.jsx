@@ -1,12 +1,13 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-import { onValue, ref, query, orderByChild, startAt } from "firebase/database";
+import { onValue, ref, query } from "firebase/database";
 
 import { db } from "../../config/firebase";
 import { useAuth } from "../auth/auth";
 import {
   calculateConsumptionAndCost,
   calculateDevicesUptime,
+  divideDataByMonth,
 } from "../../utils/chart-helper";
 import { useSettings } from "../settings/settings";
 
@@ -21,8 +22,10 @@ export const DataProvider = ({ children }) => {
   const [isFetching, setIsFetching] = useState(true);
   const [devices, setDevices] = useState(null);
   const [messages, setMessages] = useState(null);
-  const [chartData, setChartData] = useState([]);
-  const [consumptionAndCostData, setConsumptionAndCostData] = useState([]);
+  const [currentMonthData, setCurrentMonthData] = useState([]);
+  const [months, setMonths] = useState([]);
+  const [monthsUptime, setMonthsUptime] = useState([]);
+  const [currentMonth, setCurrentMonth] = useState(null);
   const [instances, setInstances] = useState(["Default"]);
   const [microcontroller, setMicrocontroller] = useState(null);
 
@@ -44,16 +47,8 @@ export const DataProvider = ({ children }) => {
         setDevices(snapshot.val() || []);
       });
 
-      const currentTimestamp = Date.now();
-      const sevenDaysAgoTimestamp =
-        currentTimestamp - 8 * 24 * 60 * 60 * 1000 + 1000;
-
       const messagesRef = ref(db, `/${userDataPath}/messages`);
-      const queryRef = query(
-        messagesRef,
-        orderByChild("timeSent"),
-        startAt(sevenDaysAgoTimestamp)
-      );
+      const queryRef = query(messagesRef);
 
       onValue(queryRef, (snapshot) => {
         setMessages(snapshot.val() || []);
@@ -69,24 +64,44 @@ export const DataProvider = ({ children }) => {
 
   useEffect(() => {
     if (messages) {
-      const data = calculateDevicesUptime(messages, areInactiveDaysIncluded);
-      setChartData(data);
+      const date = new Date();
+      const month = date.toLocaleString("default", { month: "long" });
+      const year = date.getFullYear();
+      const key = `${month} ${year}`;
+
+      setCurrentMonth(key);
+
+      const months = divideDataByMonth(messages);
+
+      const data = Object.entries(months).map(([key, value]) => {
+        return {
+          month: key,
+          data: calculateDevicesUptime(value, devices),
+        };
+      });
+
+      setMonthsUptime(data);
+
+      const monthsData = data.map((month) => {
+        return {
+          month: month.month,
+          ...calculateConsumptionAndCost(month.data, devices),
+        };
+      });
+
+      setCurrentMonthData(monthsData.find((month) => month.month === key));
+      setMonths(monthsData);
     }
   }, [messages, areInactiveDaysIncluded]);
 
-  useEffect(() => {
-    if (chartData && devices) {
-      const data = calculateConsumptionAndCost(chartData, devices);
-      setConsumptionAndCostData(data);
-    }
-  }, [chartData, devices]);
-
   const value = {
+    isFetching,
     devices,
     messages,
-    isFetching,
-    chartData,
-    consumptionAndCostData,
+    months,
+    monthsUptime,
+    currentMonthData,
+    currentMonth,
     instances,
     microcontroller,
   };

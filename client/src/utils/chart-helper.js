@@ -166,7 +166,7 @@ export const calculateConsumptionAndCost = (
   devices,
   rate = 10.12
 ) => {
-  const updatedChartData = chartData.map((data) => {
+  const days = chartData.map((data) => {
     const consumptionData = Object.entries(devices).reduce(
       (acc, [key, value]) => {
         if (data[value.name] !== undefined) {
@@ -194,5 +194,38 @@ export const calculateConsumptionAndCost = (
     return { ...data, ...consumptionData, Total };
   });
 
-  return updatedChartData;
+  const total = days.reduce(
+    (acc, day) => {
+      acc.cost += day.Total.cost;
+      acc.consumption += day.Total.consumption;
+      return acc;
+    },
+    { cost: 0, consumption: 0 }
+  );
+
+  return { days, total };
+};
+
+export const divideDataByMonth = (data) => {
+  const months = new Map();
+
+  data.forEach((item) => {
+    const date = new Date(item.timeSent);
+    const month = date.toLocaleString("default", { month: "long" });
+    const year = date.getFullYear();
+    const key = `${month} ${year}`;
+
+    if (!months.has(key)) {
+      months.set(key, []);
+    }
+
+    months.get(key).push(item);
+  });
+
+  const result = {};
+  months.forEach((value, key) => {
+    result[key] = value;
+  });
+
+  return result;
 };

@@ -17,7 +17,7 @@ import { useSettings } from "../../../contexts/settings/settings";
 import { CostTooltip } from "./cost-tooltip";
 
 export const CostChart = () => {
-  const { devices, consumptionAndCostData } = useData();
+  const { devices, currentMonthData } = useData();
   const { areDevicesIncluded } = useSettings();
   const [renderedAreas, setRenderedAreas] = useState([]);
 
@@ -41,12 +41,12 @@ export const CostChart = () => {
     <div className="content-panel">
       <h3> Cost </h3>
       <div className="container">
-        {consumptionAndCostData.length > 0 ? (
+        {currentMonthData?.days?.length > 0 ? (
           <ResponsiveContainer width="100%" height="98%">
             <AreaChart
               width="100%"
               height="100%"
-              data={consumptionAndCostData}
+              data={currentMonthData.days}
               margin={{ right: 30 }}
             >
               <YAxis tickFormatter={(value) => `\u20B1${value}`} />
