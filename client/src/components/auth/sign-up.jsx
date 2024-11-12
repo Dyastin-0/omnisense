@@ -9,7 +9,7 @@ import { Button } from "../button/button";
 import { useAuth } from "../../contexts/auth/auth";
 
 import { evaluatePasswordStrength } from "../../utils/password-meter";
-import { pushInArray } from "../../config/database";
+import { pushInArray, setData } from "../../config/database";
 
 export const SignUpWindow = ({ setToastMessage }) => {
   const navigate = useNavigate();
@@ -84,10 +84,11 @@ export const SignUpWindow = ({ setToastMessage }) => {
             setErrorMessage(null);
           }, 3000);
         });
-      await updateUser(result.user, {
+      updateUser(result.user, {
         displayName: displayName,
       });
-      await pushInArray(result.user.uid, "Default");
+      pushInArray(`${result.user.uid}/instances`, "Default");
+      setData(result.user.uid, {"Default": {microcontroller: "ESP-32-WROOM 38 Pins"}});
     }
   };
 
