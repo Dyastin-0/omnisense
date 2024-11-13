@@ -13,7 +13,6 @@ export const Device = ({
   devicePin,
   sentBy,
   icon,
-  index,
   checked,
   setToastMessage,
 }) => {
@@ -46,20 +45,13 @@ export const Device = ({
       return;
     }
     const action = newState ? "enabled" : "disabled";
-    const message = {
-      action: action,
-      name: deviceName,
-      sentBy: sentBy,
-      message: `${action} the ${deviceName}.`,
-      timeSent: new Date().getTime(),
-    };
-    setDeviceState(userDataPath, deviceName, newState, message);
+
+    setDeviceState(userDataPath, deviceName, newState);
     setToastMessage(`${deviceName} ${action}.`);
   };
   return (
     <div className="sub-container disabled">
       <div className="row">
-        <p>{`${index}.`}</p>
         <p className="description"> {deviceName} </p>
         {icon}
       </div>
@@ -71,11 +63,11 @@ export const Device = ({
           icon={<i className="fa-solid fa-ellipsis-vertical"></i>}
         />
         <DeviceSettings
+          setToastMessage={setToastMessage}
           handleDeviceState={handleDeviceState}
           enabled={enabled}
           devicePin={devicePin}
           powerRating={powerRating}
-          index={index}
           active={isSettingsOpen}
           closeModal={closeSettings}
           deviceName={deviceName}

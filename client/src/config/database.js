@@ -50,7 +50,7 @@ export async function arrayIncludes(dataPath, data) {
   return toggles.some((item) => item.name.includes(data));
 }
 
-export async function setQuery(userDataPath, name, key, newState, target) {
+export async function setQuery(userDataPath, name, key, newData, target) {
   const dataRef = ref(db, userDataPath);
   const queryRef = query(dataRef, orderByChild(name), equalTo(key));
 
@@ -58,13 +58,5 @@ export async function setQuery(userDataPath, name, key, newState, target) {
   const toggleData = res.val();
   const toggleKey = Object.keys(toggleData)[0];
   const toggleRef = ref(db, `/${userDataPath}/${toggleKey}`);
-  if (target === "state")
-    update(toggleRef, {
-      state: newState,
-    });
-
-  if (target === "enabled")
-    update(toggleRef, {
-      enabled: newState,
-    });
+  update(toggleRef, { [target]: newData });
 }

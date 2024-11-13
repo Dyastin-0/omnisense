@@ -24,7 +24,6 @@ export const DevicePanel = ({ setToastMessage }) => {
           devicePin={value.pin}
           sentBy={`${user?.displayName}`}
           key={key}
-          index={key}
           deviceName={value.name}
           icon={
             <i
