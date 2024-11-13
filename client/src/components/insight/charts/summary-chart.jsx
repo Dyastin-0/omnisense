@@ -7,52 +7,78 @@ import {
 } from "../../../utils/chart-helper";
 import { Loading } from "../../loading/loading";
 import {
-  Area,
-  AreaChart,
+  Bar,
+  BarChart,
   CartesianGrid,
-  Legend,
+  Rectangle,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
 } from "recharts";
 import { SummaryTooltip } from "./summary-tooltip";
+import { CustomShape } from "./custom-shape";
 
 const SummaryChart = () => {
-  const { months } = useData();
+  const { messages, devices } = useData();
+  const [months, setMonths] = useState(null);
+
+  useEffect(() => {
+    if (messages && devices) {
+      const months = divideDataByMonth(messages);
+      const data = Object.entries(months).map(([key, value]) => {
+        return {
+          month: key,
+          data: calculateDevicesUptime(value, devices),
+        };
+      });
+
+      const monthsData = data.map((month) => {
+        return {
+          month: month.month,
+          ...calculateConsumptionAndCost(month.data, devices),
+        };
+      });
+
+      setMonths(monthsData);
+    }
+  }, [messages, devices]);
 
   return (
-    <div className="content-panel flex-max">
+    <div className="content-panel">
       <h3> Monthly Summary </h3>
       <div className="container">
         {months ? (
           <ResponsiveContainer width="100%" height="98%">
-            <AreaChart
+            <BarChart
               width="100%"
               height="100%"
+              barSize={15}
               data={months}
               margin={{ right: 30 }}
             >
-              <YAxis tickFormatter={(value) => `\u20B1${value}`} />
+              <YAxis />
               <XAxis dataKey="month" />
               <CartesianGrid />
-              <Tooltip content={<SummaryTooltip />} />
-              <Area
-                type="monotone"
+              <Tooltip
+                content={<SummaryTooltip />}
+                cursor={{ fill: "transparent" }}
+              />
+              <Bar
                 dataKey="total.cost"
                 name="Cost"
-                stroke="var(--accent)"
                 fill="var(--accent)"
+                background={{ fill: "transparent" }}
+                shape={<CustomShape />}
               />
-              <Area
-                type="monotone"
+              <Bar
                 dataKey="total.consumption"
                 name="Consumption"
-                stroke="var(--secondary-accent)"
                 fill="var(--secondary-accent)"
+                background={{ fill: "transparent" }}
+                shape={<CustomShape />}
               />
-              <Legend />
-            </AreaChart>
+            </BarChart>
           </ResponsiveContainer>
         ) : (
           <Loading text="No data to display." />
