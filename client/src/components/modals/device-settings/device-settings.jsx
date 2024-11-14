@@ -11,7 +11,6 @@ import {
   setPowerRating,
 } from "../../../utils/data-helper";
 import { useAuth } from "../../../contexts/auth/auth";
-import { set } from "firebase/database";
 
 export const DeviceSettings = ({
   active,
@@ -60,7 +59,7 @@ export const DeviceSettings = ({
   };
 
   const handleModifyPin = (e) => {
-    const newPin = e.target.textContent;
+    const newPin = e.target.textContent.trim();
     setDevicePin(userDataPath, deviceName, newPin)
       .then(() => setToastMessage(`Pin changed to ${newPin}.`))
       .catch(() => console.error(error));
