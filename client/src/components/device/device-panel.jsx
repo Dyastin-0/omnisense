@@ -22,6 +22,7 @@ export const DevicePanel = ({ setToastMessage }) => {
           enabled={value.enabled}
           powerRating={value.powerRating}
           devicePin={value.pin}
+          sensor={value.sensor}
           sentBy={`${user?.displayName}`}
           key={key}
           deviceName={value.name}

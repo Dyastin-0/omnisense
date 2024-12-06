@@ -27,6 +27,10 @@ export const setDevicePin = async (userDataPath, name, newPin) => {
   setQuery(`${userDataPath}/devices`, "name", name, newPin, "pin");
 };
 
+export const setDeviceSensor = async (userDataPath, name, sensor) => {
+  setQuery(`${userDataPath}/devices`, "name", name, sensor, "sensor");
+};
+
 export const addDevice = async (
   userDataPath,
   deviceName,

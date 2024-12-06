@@ -19,8 +19,10 @@ export const DeviceSettings = ({
   powerRating,
   devicePin,
   enabled,
+  sensor,
   handleDeviceState,
   setToastMessage,
+  openSensor,
 }) => {
   const { devices } = useData();
   const { userDataPath } = useAuth();
@@ -131,6 +133,39 @@ export const DeviceSettings = ({
                       />
                     ))}
               </Dropdown>
+              <div>
+                <p className="description">Sensor</p>
+                {sensor ? (
+                  <>
+                    <p>{sensor.name}</p>
+                    <div className="row left">
+                      {sensor.pins.map((value) => (
+                        <p key={value.pin}>
+                          {value.pin} - {value.type}
+                        </p>
+                      ))}
+                    </div>
+                    <Button
+                      text="Modify sensor"
+                      className="nav-button center full"
+                      onclick={() => {
+                        openSensor();
+                        closeModal();
+                      }}
+                    />
+                  </>
+                ) : (
+                  <Button
+                    text="Integrate a sensor"
+                    className="nav-button center full"
+                    icon={<i className="fa-solid fa-wifi" />}
+                    onclick={() => {
+                      openSensor();
+                      closeModal();
+                    }}
+                  />
+                )}
+              </div>
             </div>
           </div>
           <div>

@@ -6,11 +6,14 @@ import { setToggleState, setDeviceState } from "../../utils/data-helper";
 import { useState, useCallback } from "react";
 import { useAuth } from "../../contexts/auth/auth";
 
+import IntegrateSensorModal from "../modals/integrate-sensor/integrate-sensor-modal";
+
 export const Device = ({
   deviceName,
   powerRating,
   enabled,
   devicePin,
+  sensor,
   sentBy,
   icon,
   checked,
@@ -18,9 +21,13 @@ export const Device = ({
 }) => {
   const { userDataPath } = useAuth();
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isSensorOpen, setIsSensorOpen] = useState(false);
 
   const openSettings = useCallback(() => setIsSettingsOpen(true), []);
   const closeSettings = useCallback(() => setIsSettingsOpen(false), []);
+
+  const openSensor = useCallback(() => setIsSensorOpen(true), []);
+  const closeSensor = useCallback(() => setIsSensorOpen(false), []);
 
   const handleStateChange = (newState) => {
     if (!enabled) {
@@ -70,6 +77,13 @@ export const Device = ({
           powerRating={powerRating}
           active={isSettingsOpen}
           closeModal={closeSettings}
+          sensor={sensor}
+          deviceName={deviceName}
+          openSensor={openSensor}
+        />
+        <IntegrateSensorModal
+          active={isSensorOpen}
+          closeModal={closeSensor}
           deviceName={deviceName}
         />
       </div>

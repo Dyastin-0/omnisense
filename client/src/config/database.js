@@ -74,5 +74,6 @@ export async function setQuery(userDataPath, name, key, newData, target) {
   const toggleData = res.val();
   const toggleKey = Object.keys(toggleData)[0];
   const toggleRef = ref(db, `/${userDataPath}/${toggleKey}`);
+  console.log(toggleKey);
   update(toggleRef, { [target]: newData });
 }
