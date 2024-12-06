@@ -1,16 +1,9 @@
-import React, { useEffect, useState } from "react";
 import { useData } from "../../../contexts/data/data";
-import {
-  calculateConsumptionAndCost,
-  calculateDevicesUptime,
-  divideDataByMonth,
-} from "../../../utils/chart-helper";
 import { Loading } from "../../loading/loading";
 import {
   Bar,
   BarChart,
   CartesianGrid,
-  Rectangle,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -20,29 +13,7 @@ import { SummaryTooltip } from "./summary-tooltip";
 import { CustomShape } from "./custom-shape";
 
 const SummaryChart = () => {
-  const { messages, devices } = useData();
-  const [months, setMonths] = useState(null);
-
-  useEffect(() => {
-    if (messages && devices) {
-      const months = divideDataByMonth(messages);
-      const data = Object.entries(months).map(([key, value]) => {
-        return {
-          month: key,
-          data: calculateDevicesUptime(value, devices),
-        };
-      });
-
-      const monthsData = data.map((month) => {
-        return {
-          month: month.month,
-          ...calculateConsumptionAndCost(month.data, devices),
-        };
-      });
-
-      setMonths(monthsData);
-    }
-  }, [messages, devices]);
+  const { months } = useData();
 
   return (
     <div className="content-panel">

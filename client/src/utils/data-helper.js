@@ -1,4 +1,4 @@
-import { setQuery, pushInArray } from "../config/database";
+import { setQuery, pushInArray, updateData } from "../config/database";
 
 export const setDeviceState = (userDataPath, name, enabled) => {
   setQuery(`${userDataPath}/devices`, "name", name, enabled, "enabled");
@@ -45,4 +45,12 @@ export const addDevice = async (
 export const addInstance = async (userPath, deviceName) => {
   console.log(userPath, deviceName);
   await pushInArray(`/${userPath}/instances`, deviceName);
+};
+
+export const cacheComputedData = (userPath, data) => {
+  updateData(`${userPath}/cachedComputedData`, data);
+};
+
+export const cacheComputedUptime = async (userPath, data) => {
+  updateData(`${userPath}/cachedComputedUptime`, data);
 };

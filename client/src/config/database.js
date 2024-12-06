@@ -8,11 +8,19 @@ import {
   equalTo,
   orderByChild,
   update,
+  runTransaction,
 } from "firebase/database";
 
 export async function setData(dataPath, data) {
   const dataRef = ref(db, dataPath);
   await set(dataRef, data).catch((error) => {
+    console.error(error);
+  });
+}
+
+export async function updateData(dataPath, data) {
+  const dataRef = ref(db, dataPath);
+  await update(dataRef, data).catch((error) => {
     console.error(error);
   });
 }
@@ -37,10 +45,18 @@ export function listenToChangesOn(dataPath) {
 
 export async function pushInArray(dataPath, data) {
   const dataRef = ref(db, dataPath);
-  const snapShot = await get(dataRef);
-  const array = (await snapShot.val()) || [];
-  array.push(data);
-  set(dataRef, array);
+
+  await runTransaction(dataRef, (currentData) => {
+    if (!currentData) {
+      currentData = {};
+    }
+
+    const nextIndex = Object.keys(currentData).length;
+    currentData[nextIndex] = data;
+    return currentData;
+  }).catch((error) => {
+    console.error("Error pushing data:", error);
+  });
 }
 
 export async function arrayIncludes(dataPath, data) {

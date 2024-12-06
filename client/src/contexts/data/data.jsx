@@ -1,6 +1,14 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-import { onValue, ref, query } from "firebase/database";
+import {
+  onValue,
+  ref,
+  query,
+  orderByChild,
+  startAt,
+  endAt,
+  get,
+} from "firebase/database";
 
 import { db } from "../../config/firebase";
 import { useAuth } from "../auth/auth";
@@ -28,12 +36,16 @@ export const DataProvider = ({ children }) => {
   const [currentMonth, setCurrentMonth] = useState(null);
   const [instances, setInstances] = useState(["Default"]);
   const [microcontroller, setMicrocontroller] = useState(null);
+  const [cachedComputedData, setCachedComputedData] = useState(null);
+  const [cachedUptimeData, setCachedUptimeData] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       const instancesRef = ref(db, `/${user.uid}`);
       onValue(instancesRef, (snapshot) => {
-        setInstances(Object.keys(snapshot.val()).filter(((val) => val !== "instances")) || []);
+        setInstances(
+          Object.keys(snapshot.val()).filter((val) => val !== "instances") || []
+        );
       });
 
       const instanceRef = ref(db, `/${userDataPath}`);
@@ -48,13 +60,32 @@ export const DataProvider = ({ children }) => {
       });
 
       const messagesRef = ref(db, `/${userDataPath}/messages`);
-      const queryRef = query(messagesRef);
 
-      onValue(queryRef, (snapshot) => {
-        setMessages(snapshot.val() || []);
+      onValue(messagesRef, (snapshot) => {
+        const messages = snapshot.val() || [];
+        setMessages(messages);
+      });
+
+      onValue(messagesRef, (snapshot) => {
+        const messages = Object.values(snapshot.val() || {});
+        setMessages(messages);
+      });
+
+      const uptimeDataRef = ref(db, `/${userDataPath}/cachedComputedUptime`);
+
+      get(uptimeDataRef).then((snapshot) => {
+        setCachedUptimeData(snapshot.val() || {});
+      });
+
+      const previouslyComputedDataRef = ref(
+        db,
+        `${userDataPath}/cachedComputedData`
+      );
+
+      get(previouslyComputedDataRef).then((snapshot) => {
+        setCachedComputedData(snapshot.val() || {});
       });
     };
-
     user && fetchData();
   }, [user, userDataPath]);
 
@@ -63,7 +94,7 @@ export const DataProvider = ({ children }) => {
   }, [devices, messages]);
 
   useEffect(() => {
-    if (messages) {
+    if (messages && cachedComputedData && cachedUptimeData) {
       const date = new Date();
       const month = date.toLocaleString("default", { month: "long" });
       const year = date.getFullYear();
@@ -76,7 +107,12 @@ export const DataProvider = ({ children }) => {
       const data = Object.entries(months).map(([key, value]) => {
         return {
           month: key,
-          data: calculateDevicesUptime(value, devices),
+          data: calculateDevicesUptime(
+            value,
+            cachedUptimeData,
+            areInactiveDaysIncluded,
+            userDataPath
+          ),
         };
       });
 
@@ -85,14 +121,20 @@ export const DataProvider = ({ children }) => {
       const monthsData = data.map((month) => {
         return {
           month: month.month,
-          ...calculateConsumptionAndCost(month.data, devices),
+          ...calculateConsumptionAndCost(
+            month.data,
+            devices,
+            10.12,
+            cachedComputedData,
+            userDataPath
+          ),
         };
       });
 
       setCurrentMonthData(monthsData.find((month) => month.month === key));
       setMonths(monthsData);
     }
-  }, [messages, areInactiveDaysIncluded]);
+  }, [messages, cachedComputedData, cachedUptimeData, areInactiveDaysIncluded]);
 
   const value = {
     isFetching,

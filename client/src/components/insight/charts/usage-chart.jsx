@@ -23,9 +23,9 @@ export const UsageChart = () => {
   const [uptime, setUptime] = useState([]);
 
   useEffect(() => {
-    if (monthsUptime.length > 0 && currentMonth) {
+    if (monthsUptime?.length > 0 && currentMonth) {
       const uptime = monthsUptime.find((month) => month.month === currentMonth);
-      setUptime(uptime.data);
+      setUptime(uptime?.data || []);
     }
   }, [monthsUptime]);
 
@@ -51,7 +51,7 @@ export const UsageChart = () => {
     <div className="content-panel">
       <h3> Usage </h3>
       <div className="container">
-        {uptime.length > 0 ? (
+        {uptime?.length > 0 ? (
           <ResponsiveContainer width="100%" height="98%">
             <AreaChart
               width="100%"
