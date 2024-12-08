@@ -1,4 +1,4 @@
-import { setQuery, pushInArray, updateData } from "../config/database";
+import { setQuery, pushInArray, updateData, setData } from "../config/database";
 
 export const setDeviceState = (userDataPath, name, enabled) => {
   setQuery(`${userDataPath}/devices`, "name", name, enabled, "enabled");
@@ -6,7 +6,7 @@ export const setDeviceState = (userDataPath, name, enabled) => {
 
 export const setToggleState = (userDataPath, name, state, message) => {
   setQuery(`/${userDataPath}/devices`, "name", name, state, "state");
-  pushInArray(`/${userDataPath}/messages`, message);
+  updateData(`/${userDataPath}/messages`, { [message.timeSent]: message });
 };
 
 export const setDeviceName = async (userDataPath, name, newName) => {
