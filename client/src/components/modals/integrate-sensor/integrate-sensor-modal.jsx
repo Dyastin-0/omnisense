@@ -10,11 +10,11 @@ import { useAuth } from "../../../contexts/auth/auth";
 const sensors = [
   {
     name: "Sound sensor (KY-038)",
-    pins: ["A0", "D0"],
+    pins: ["AO", "DO"],
   },
   {
     name: "Motion sensor (HC-SR501)",
-    pins: ["D0"],
+    pins: ["DO"],
   },
 ];
 
