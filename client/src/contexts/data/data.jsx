@@ -1,14 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-import {
-  onValue,
-  ref,
-  query,
-  orderByChild,
-  startAt,
-  endAt,
-  get,
-} from "firebase/database";
+import { onValue, ref, get } from "firebase/database";
 
 import { db } from "../../config/firebase";
 import { useAuth } from "../auth/auth";

@@ -1,4 +1,4 @@
-import { setQuery, pushInArray, updateData, setData } from "../config/database";
+import { setQuery, pushInArray, updateData } from "../config/database";
 
 export const setDeviceState = (userDataPath, name, enabled) => {
   setQuery(`${userDataPath}/devices`, "name", name, enabled, "enabled");
