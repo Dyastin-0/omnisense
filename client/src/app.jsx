@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, lazy } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import SignIn from "./views/sign-in";
-import SignUp from "./views/sign-up";
-import Dashboard from "./views/dashboard";
+
+const SignIn = lazy(() => import("./views/sign-in"));
+const SignUp = lazy(() => import("./views/sign-up"));
+const Dashboard = lazy(() => import("./views/dashboard"));
 
 import { Layout } from "./layout";
 import Home from "./views/home";

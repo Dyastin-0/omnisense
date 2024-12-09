@@ -8,4 +8,22 @@ export default defineConfig({
       "@": "/src",
     },
   },
+  build: {
+    sourcemap: false,
+    minify: "esbuild",
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("node_modules")) {
+            return "vendor";
+          }
+        },
+      },
+    },
+  },
+  server: {
+    hmr: {
+      overlay: false,
+    },
+  },
 });
