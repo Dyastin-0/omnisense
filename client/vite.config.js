@@ -1,20 +1,38 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+// import { visualizer } from "rollup-plugin-visualizer";
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    // visualizer({
+    //   filename: "stats.html",
+    //   open: true,
+    // }),
+  ],
   build: {
-    target: "esnext", // Modern JavaScript for smaller builds
-    sourcemap: false, // Disable sourcemaps to reduce build time
-    chunkSizeWarningLimit: 1000, // Increase limit for chunk size warnings
+    target: "esnext",
+    sourcemap: false,
     rollupOptions: {
       output: {
         manualChunks(id) {
           if (id.includes("node_modules")) {
-            if (id.includes("firebase")) {
-              return "firebase"; // Separate Firebase into its own chunk
+            if (id.includes("@firebase")) {
+              return "firebase";
             }
-            return "vendor"; // Other vendor libraries
+            if (id.includes("react")) {
+              return "react";
+            }
+            if (id.includes("framer-motion")) {
+              return "framer-motion";
+            }
+            if (id.includes("popmotion")) {
+              return "popmotion";
+            }
+            if (id.includes("recharts")) {
+              return "recharts";
+            }
+            return "vendor";
           }
         },
       },
